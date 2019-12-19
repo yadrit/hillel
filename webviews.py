@@ -1,7 +1,7 @@
 import random
 import string
 import requests
-from flask import Flask
+from flask import Flask, request
 from db import exec_query
 from faker import Faker
 
@@ -70,6 +70,16 @@ def all_customers():
 def profit():
     result = exec_query(f'SELECT SUM(UnitPrice * Quantity) FROM invoice_items')
     return str(result)
+
+# Lesson 5
+@app.route('/gener')
+def gener():
+    number = int(request.args['number'])
+    # if number not in range(100)
+    # return 'Wrong number'
+    if 0 < number < 100:
+        return ''.join(random.choice(string.ascii_uppercase) for _ in range(10))
+    return "Wrong number"
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
